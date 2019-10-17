@@ -77,7 +77,7 @@ router.onSocketMsg = function(initData, conn) {
     });
 }
 
-socketHander.bind = function(data, conn) {
+socketHander.enter = function(data, conn) {
     var userId = data['userId'];
     userConnMgr.add(userId, conn);
 }
