@@ -6,7 +6,7 @@
 var protocolData = {};
 var userData = require('userData');
 
-protocolData.bindData = function() {
+protocolData.enter = function() {
 	return {
 		'opr' : 'enter',
 		'data' : {

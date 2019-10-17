@@ -37,7 +37,7 @@ var socket = cc.Class({
 
     _onOpne: function() {
         // 发送绑定协议
-        this.send(protocolData.bindData());
+        this.send(protocolData.enter());
     },
 });
 module.exports = socket;
