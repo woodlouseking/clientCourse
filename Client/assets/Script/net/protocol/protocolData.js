@@ -8,7 +8,7 @@ var userData = require('userData');
 
 protocolData.bindData = function() {
 	return {
-		'cmd' : 'bind',
+		'operate' : 'bind',
 		'data' : {
 			'userId' : userData.userId,
 			'token' : userData.token
