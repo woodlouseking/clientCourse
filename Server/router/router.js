@@ -62,7 +62,7 @@ router.onSocketMsg = function(initData, conn) {
         console.log('checkToken come in res = ' + res);
         if(!res) {
             var resdata = {
-                'operate':data['operate'],
+                'opr':data['opr'],
                 'data' : {
                     'error': 1,
                     'info' : 'token is error!!'
@@ -73,7 +73,7 @@ router.onSocketMsg = function(initData, conn) {
         }
 
         // 进行分发
-        socketHander[data['operate']](data['data'], conn)
+        socketHander[data['opr']](data['data'], conn)
     });
 }
 
