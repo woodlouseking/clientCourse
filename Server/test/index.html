@@ -1,0 +1,99 @@
+<html>
+    <title>TestWs</title>
+    <h1>Ws</h1>
+    <!-- 输入用户名 密码的登录 -->
+    <form>
+        userID:
+        <input type="text" name="userID" id="userVal">
+        <br />
+        密码:
+        <input type="password" name="password" id="passwordVal">
+        <br />
+        <input type="button" id="button1" onclick="toLogin()" value="login" />
+    </form>
+
+    <!-- 发送信息框 -->
+    <form>
+        输入内容：
+        <br />
+        <input type="text" name="inputArea" id="inputArea">
+        <br />
+        <input type="button" id="buttonSend" onclick="sendMsg()" value="buttonSend" />
+    </form>
+
+    <script type="text/javascript">
+        var ws = null;
+
+        var userInfo = {
+            'userId' : 123,
+            'token' : 'abc'
+        }
+
+        function sendLogin() {
+            var xhr = new XMLHttpRequest();
+            // xhr.open('GET', 'http://127.0.0.1:8181/login/?userName=ww&passWord=123', true);
+            xhr.open('GET', 'http://127.0.0.1:8181/login/?userName=' +userInfo.name + '&passWord=' + userInfo.pwd, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data['error'] != 0) {
+                            alert('Login error');
+                            return;
+                        }
+                        userInfo = data.data;
+                        alert('登录成功：' + JSON.stringify(userInfo));
+                        // 发起ws连接
+                        openWs();
+                    }
+                }
+            }
+
+            xhr.send();
+        }
+
+        function toLogin() {
+            var val = document.getElementById('userVal').value;
+            var pwd = document.getElementById('passwordVal').value;
+            console.log('submit come in ..');
+            userInfo.name = val;
+            userInfo.pwd = pwd;
+            sendLogin();
+        }
+
+        function sendMsg() {
+            var msg = document.getElementById('inputArea').value;
+            alert('要发送的消息:' + msg);
+        }
+
+        function openWs() {
+            ws = new WebSocket('ws://127.0.0.1:8183/');
+            ws.onopen = function(info) {
+                console.log('connect open info = ' + JSON.stringify(info));
+                sendEnter();
+            }
+            ws.onmessage = function(info) {
+                console.log('onmessage info = ' + info.data);
+            }
+            ws.onclose = function(info) {
+                console.log('onclose come in info = ' + JSON.stringify(info));
+            }
+            ws.onerror = function(info) {
+                console.log('onerror info = ' + JSON.stringify(info));
+            }
+        }
+
+        function sendEnter() {
+            var data = {
+                'cmd' : 'enter',
+                'data' : {
+                    'userId' : userInfo.id,
+                    'token' : userInfo.token
+                }
+            };
+            ws.send(JSON.stringify(data));
+        }
+
+    </script>
+</html>
