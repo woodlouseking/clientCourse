@@ -25,16 +25,16 @@ var httpTest = function(path, reqData, callBack) {
 	req.end();
 }
 
-// httpTest('register', 'userName=www&passWord=123', function(body) {
-// 	console.log('register come in body = ' + body);
-// });
-
-httpTest('login', 'userName=www&passWord=123', function(body){
-	var info = JSON.parse(body);
-	console.log('login CB = ' + JSON.stringify(info.error));
-	if (info.error == 0) {
-		userInfo['userId'] = info.data.id;
-		userInfo['token'] = info.data.token;
-		console.log('userInfo = ' + JSON.stringify(userInfo));
-	}
+httpTest('register', 'userName=www&passWord=123', function(body) {
+	console.log('register come in body = ' + body);
 });
+
+// httpTest('login', 'userName=www&passWord=123', function(body){
+// 	var info = JSON.parse(body);
+// 	console.log('login CB = ' + JSON.stringify(info.error));
+// 	if (info.error == 0) {
+// 		userInfo['userId'] = info.data.id;
+// 		userInfo['token'] = info.data.token;
+// 		console.log('userInfo = ' + JSON.stringify(userInfo));
+// 	}
+// });
